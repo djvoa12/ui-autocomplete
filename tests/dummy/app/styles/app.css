@@ -1,0 +1,12 @@
+
+.ember-tether {
+  position: absolute;
+}
+
+.ff-option.focussed {
+  background-color: #CCC;
+}
+
+.ff-option.selected {
+  background-color: #AAA;
+}
