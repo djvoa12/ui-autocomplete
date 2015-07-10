@@ -39,7 +39,7 @@
   "dependencies": {
     "ember-cli-babel": "^5.0.0",
     "ember-cli-htmlbars": "0.7.6",
-    "ui-option-list": "https://github.com/firefly-ui/ui-option-list.git#refactor-to-allow-dynamic-option-lists"
+    "ui-option-list": "git+ssh://git@github.com/firefly-ui/ui-option-list.git#refactor-to-allow-dynamic-option-lists"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

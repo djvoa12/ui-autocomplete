@@ -1,6 +1,6 @@
 <h2 id="title">Welcome to Ember.js</h2>
 
-<div>
+<!-- <div>
   {{#ui-autocomplete id="autocomplete" placeholder="Select..." value=value on-select="setValue"
     inline=true items=filteredOptions as |item|}}
     {{#ui-option value=item.label}}
@@ -17,4 +17,24 @@
       {{/ui-option}}
     {{/ui-option-group}}
   {{/ui-autocomplete}}
+</div> -->
+
+<div>
+  {{#ui-autocomplete id="autocomplete-with-search-options" placeholder="Select..." value=value on-select="setValue" inline=true items=filteredSearchOptions as |group|}}
+    {{#if group.items}}
+      {{#ui-option-group label=group.label items=group.items as |item|}}
+        {{#ui-option value=item.value.title}}
+          {{component item.type class="ac-option" value=item.value}}
+        {{/ui-option}}
+      {{/ui-option-group}}
+    {{/if}}
+  {{/ui-autocomplete}}
+
+  {{#if noResults}}
+    <span>No Results</span>
+  {{/if}}
+
+  {{#if resultsCutoff}}
+    <span>More Results</span>
+  {{/if}}
 </div>

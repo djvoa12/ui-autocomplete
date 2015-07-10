@@ -10,3 +10,23 @@
 .ff-option.selected {
   background-color: #AAA;
 }
+
+input {
+  width: 60%;
+  max-width: 800px;
+  height: 24px;
+}
+
+.ac-option {
+  width: 60%;
+  max-width: 800px;
+  height: 48px;
+}
+
+span {
+  display: block;
+}
+
+li {
+  list-style: none;
+}
