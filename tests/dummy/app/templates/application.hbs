@@ -1,3 +1,20 @@
 <h2 id="title">Welcome to Ember.js</h2>
 
-{{outlet}}
+<div>
+  {{#ui-autocomplete id="autocomplete" placeholder="Select..." value=value on-select="setValue"
+    inline=true items=filteredOptions as |item|}}
+    {{#ui-option value=item.label}}
+      {{item.label}}
+    {{/ui-option}}
+  {{/ui-autocomplete}}
+</div>
+
+<div>
+  {{#ui-autocomplete id="autocomplete-with-groups" placeholder="Select..." value=value on-select="setValue" inline=true items=filteredOptionGroups as |group|}}
+    {{#ui-option-group label=group.label items=group.items as |item|}}
+      {{#ui-option value=item.label}}
+        {{item.label}}
+      {{/ui-option}}
+    {{/ui-option-group}}
+  {{/ui-autocomplete}}
+</div>
