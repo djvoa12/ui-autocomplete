@@ -9,12 +9,9 @@ const autocompleteField = '.ff-autocomplete-field';
 const firstOption = '.ff-option:first';
 const lastOption = '.ff-option:last';
 
-const tab = { keyCode: 9 };
 const moveDown = { keyCode: 40 };
-const moveUp = { keyCode: 38 };
 
 const enter = { keyCode: 13 };
-const escape = { keyCode: 27 };
 
 
 let application;

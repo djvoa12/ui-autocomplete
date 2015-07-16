@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
     }
   ]),
 
-  filteredOptions: computed('options.@each', 'value', function(item) {
+  filteredOptions: computed('options.@each', 'value', function() {
     const regex = new RegExp(this.get('value'), 'i');
 
     return Ember.A(this.get('options').filter((option) => {
