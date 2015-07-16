@@ -4,6 +4,8 @@ import OptionListAriaMixin from 'ui-option-list/mixins/option-list-aria';
 
 const { Component, computed, generateGuid, observer } = Ember;
 
+const ProxyContent = Ember.Object.extend(Ember.PromiseProxyMixin);
+
 export default Component.extend(OptionListAriaMixin, {
   layout: layout,
   fieldComponent: 'ui-autocomplete-field',
@@ -17,6 +19,42 @@ export default Component.extend(OptionListAriaMixin, {
 
   componentId: computed(function() {
     return generateGuid();
+  }),
+
+  /*
+    This computed property wraps a passed promise
+    and allows to watch this promise's state.
+
+    @return {PromiseProxyObject} Promise Proxy
+  */
+  proxyContent: computed('async-items', 'items', function() {
+    const asyncItems = this.get('async-items');
+
+    if (!asyncItems) {
+      return {
+        content: this.get('items')
+      };
+    } else {
+      return ProxyContent.create({
+        promise: asyncItems
+      });
+    }
+  }),
+
+  /*
+    Checks if the promise is pending. Also takes input value
+    into account (if the value is an empty string, promise is
+    considered fulfilled).
+
+    @return {Boolean} Whether promise is pending or not
+  */
+  isPromisePending: computed('proxyContent.isPending', 'value', {
+    get() {
+      const value = this.get('value');
+      const isPending = this.get('proxyContent.isPending');
+
+      return isPending && !!value;
+    }
   }),
 
   componentSelector: computed('componentId', function() {

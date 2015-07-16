@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { computed } = Ember;
+const { computed, run } = Ember;
 
 export default Ember.Controller.extend({
   options: Ember.A([{
@@ -18,9 +18,15 @@ export default Ember.Controller.extend({
   filteredOptions: computed('options.@each', 'value', function(item) {
     const regex = new RegExp(this.get('value'), 'i');
 
-    return Ember.A(this.get('options').filter((option) => {
-      return option.label.search(regex) > -1;
-    }));
+    return new Ember.RSVP.Promise((resolve) => {
+      const filteredOptions = Ember.A(this.get('options').filter((option) => {
+        return option.label.search(regex) > -1;
+      }));
+
+      run.debounce(() => {
+        resolve(filteredOptions);
+      }, 1500);
+    });
   }),
 
   optionGroups: Ember.A([{
@@ -65,7 +71,7 @@ export default Ember.Controller.extend({
       return {
         label: group.label,
         items: Ember.A(group.items.filter((option) => {
-          return option.label.search(regex) > -1;
+          return option.label.match(regex);
         }))
       };
     });
@@ -73,7 +79,6 @@ export default Ember.Controller.extend({
 
   actions: {
     setValue(value) {
-      console.log('test');
       this.set('value', value);
     },
 
