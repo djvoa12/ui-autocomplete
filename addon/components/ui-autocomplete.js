@@ -55,7 +55,7 @@ export default Component.extend(OptionListAriaMixin, {
 
       return isPending && !!value;
     }
-  }),
+  }).readOnly(),
 
   componentSelector: computed('componentId', function() {
     return `#${this.get('componentId')}`;
