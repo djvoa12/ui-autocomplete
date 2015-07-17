@@ -34,7 +34,8 @@ test('selecting an option', function(assert) {
 
   return visit('/')
     .then(() => {
-      return fillIn(`${autocomplete} ${autocompleteField}`, 'T');
+      fillIn(`${autocomplete} ${autocompleteField}`, 'T');
+      return keyEvent(`${autocomplete} ${autocompleteField}`, 'keyup');
     })
     .then(() => {
       assert.equal(find(firstOption).text().trim(), 'Two');
@@ -53,7 +54,8 @@ test('keyboard navigation', function(assert) {
 
   return visit('/')
     .then(() => {
-      return fillIn(`${autocomplete} ${autocompleteField}`, 'T');
+      fillIn(`${autocomplete} ${autocompleteField}`, 'T');
+      return keyEvent(`${autocomplete} ${autocompleteField}`, 'keyup');
     })
     .then(() => {
       focussed = find('.focussed');
@@ -79,7 +81,8 @@ test('option group keyboard navigation', function(assert) {
 
   return visit('/')
     .then(() => {
-      return fillIn(`${autocompleteWithGroups} ${autocompleteField}`, 'e');
+      fillIn(`${autocompleteWithGroups} ${autocompleteField}`, 'e');
+      return keyEvent(`${autocompleteWithGroups} ${autocompleteField}`, 'keyup');
     })
     .then(() => {
       focussed = find('.focussed');
@@ -110,7 +113,8 @@ test('aria compatibility', function(assert) {
       assert.equal(autocompleteElement.attr('aria-autocomplete'), 'list');
       assert.equal(autocompleteElement.attr('aria-haspopup'), 'true');
 
-      return click(`${autocomplete} ${autocompleteField}`);
+      fillIn(`${autocompleteWithGroups} ${autocompleteField}`, 'e');
+      return keyEvent(`${autocomplete} ${autocompleteField}`, 'keyup');
     })
     .then(() => {
       assert.equal(autocompleteElement.attr('aria-expanded'), 'true');

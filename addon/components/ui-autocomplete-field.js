@@ -3,8 +3,12 @@ import Ember from 'ember';
 export default Ember.TextField.extend({
   bubbles: true,
 
-  focusIn() {
-    this.sendAction('open');
+  keyUp() {
+    if (this.get('value')) {
+      this.sendAction('open');
+    } else {
+      this.sendAction('close');
+    }
   },
 
   keyDown(e) {
