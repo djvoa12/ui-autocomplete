@@ -8,12 +8,17 @@ const ProxyContent = Ember.Object.extend(Ember.PromiseProxyMixin);
 
 export default Component.extend(OptionListAriaMixin, {
   layout: layout,
-  fieldComponent: 'ui-autocomplete-field',
+  'field-component': 'ui-autocomplete-field',
 
   classNames: ['ff-autocomplete'],
 
+  to: 'ui-autocomplete',
   attachment: 'top left',
-  targetAttachment: 'bottom left',
+  'target-attachment': 'bottom left',
+  constraints: [{
+    to: 'window',
+    attachment: 'together'
+  }],
 
   'show-placeholder-as-option': false,
 
@@ -30,14 +35,14 @@ export default Component.extend(OptionListAriaMixin, {
   proxyContent: computed('async-items', 'items', function() {
     const asyncItems = this.get('async-items');
 
-    if (!asyncItems) {
-      return {
-        content: this.get('items')
-      };
-    } else {
+    if (isPromise(asyncItems)) {
       return ProxyContent.create({
         promise: asyncItems
       });
+    } else {
+      return {
+        content: this.get('items') || []
+      };
     }
   }),
 
@@ -77,9 +82,13 @@ export default Component.extend(OptionListAriaMixin, {
   }),
 
   focusOut() {
-    if (!this.get('selectWillChange')) {
+    if (!this.get('selectionWillChange')) {
       this.send('close');
     }
+  },
+
+  willDestroyElement() {
+    Ember.$(document).off('mousedown.ui-autocomplete');
   },
 
   actions: {
@@ -87,15 +96,17 @@ export default Component.extend(OptionListAriaMixin, {
       this.set('isOpen', true);
 
       Ember.run.next(() => {
-        Ember.$('.ff-option-list').on('mousedown.ui-autocomplete', () => {
-          this.set('selectWillChange', true);
+        Ember.$(document).on('mousedown.ui-autocomplete', (e) => {
+          if (Ember.$('.ff-autocomplete-menu').find(Ember.$(e.target)).length) {
+            this.set('selectionWillChange', true);
+          }
         });
       });
     },
 
     close() {
-      Ember.$('.ff-option-list').off('mousedown.ui-autocomplete');
-      this.set('selectWillChange', false);
+      Ember.$('.ff-autocomplete-menu').off('mousedown.ui-autocomplete');
+      this.set('selectionWillChange', false);
 
       this.set('isOpen', false);
     },
@@ -107,3 +118,7 @@ export default Component.extend(OptionListAriaMixin, {
     }
   }
 });
+
+function isPromise(promise) {
+  return promise instanceof Ember.RSVP.Promise;
+}
