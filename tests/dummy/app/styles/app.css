@@ -3,10 +3,22 @@
   position: absolute;
 }
 
+.ff-option {
+  padding: 20px;
+}
+
 .ff-option.focussed {
   background-color: #CCC;
 }
 
 .ff-option.selected {
   background-color: #AAA;
+}
+
+.ff-autocomplete-menu,
+.ff-autocomplete-menu ul {
+  background: #EEE;
+  list-style: none;
+  padding-left: 0;
+  width: 200px;
 }

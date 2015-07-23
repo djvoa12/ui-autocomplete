@@ -1,29 +1,43 @@
-{{component fieldComponent id=componentId open="open" close="close" placeholder=placeholder
+{{component field-component id=componentId open="open" close="close" placeholder=placeholder
   disabled=disabled value=value class="ff-autocomplete-field"}}
 
 {{#if isOpen}}
-  {{#if isPromisePending}}
-    {{#if loaderComponent}}
-      {{component loaderComponent}}
-    {{else if (hasBlock "inverse")}}
-      {{yield to="inverse"}}
+  {{#liquid-tether
+    to=to
+    render-inline=inline
+    target=componentSelector
+    attachment=attachment
+    target-attachment=target-attachment
+    target-modifier=target-modifier
+    offset=offset
+    target-offset=target-offset
+    constraints=constraints
+    optimizations=optimizations}}
+    {{#if isPromisePending}}
+      <div class="ff-autocomplete-loader">
+        {{#if loader-component}}
+          {{component loader-component}}
+        {{else}}
+          <span>Loading...</span>
+        {{/if}}
+      </div>
     {{else}}
-      <span>Loading...</span>
-    {{/if}}
-  {{else}}
-    {{#if inline}}
-      {{#ui-option-list selectedValues=selectedValues items=proxyContent.content disabled=disabled on-select="selectItem"
-        close="close" set-aria-owns="setAriaOwns" set-active-descendent="setActiveDescendent" as |item|}}
+      {{#ui-option-list
+        items=proxyContent.content
+        selected-values=selectedValues
+        disabled=disabled
+        on-select="selectItem"
+        close="close"
+        set-aria-owns="setAriaOwns"
+        set-active-descendent="setActiveDescendent"
+        class="ff-autocomplete-menu"
+
+        as |item|}}
         {{yield item}}
+      {{else}}
+        {{yield to="inverse"}}
       {{/ui-option-list}}
-    {{else}}
-      {{#ember-tether target=componentSelector attachment=attachment targetAttachment=targetAttachment}}
-        {{#ui-option-list selectedValues=selectedValues items=items disabled=disabled on-select="selectItem"
-          close="close" set-aria-owns="setAriaOwns" set-active-descendent="setActiveDescendent" as |item|}}
-          {{yield item}}
-        {{/ui-option-list}}
-      {{/ember-tether}}
     {{/if}}
-  {{/if}}
+  {{/liquid-tether}}
 {{/if}}
 
