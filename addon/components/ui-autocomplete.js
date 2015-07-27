@@ -26,6 +26,10 @@ export default Component.extend(OptionListAriaMixin, {
     return generateGuid();
   }),
 
+  componentSelector: computed('componentId', function() {
+    return `#${this.get('componentId')}`;
+  }),
+
   /*
     This computed property wraps a passed promise
     and allows to watch this promise's state.
@@ -62,22 +66,28 @@ export default Component.extend(OptionListAriaMixin, {
     }
   }).readOnly(),
 
-  componentSelector: computed('componentId', function() {
-    return `#${this.get('componentId')}`;
-  }),
-
   selectedValues: computed(function() {
     return Ember.A();
   }),
 
-  valueDidChange: observer('value', function() {
+  queryDidChange: observer('query', function() {
     const selectedValues = this.get('selectedValues');
-    const value = this.get('value');
+    const query = this.get('query');
+
+    this.sendAction('on-change', query);
 
     selectedValues.clear();
 
-    if (value) {
-      selectedValues.pushObject(value);
+    if (query) {
+      selectedValues.pushObject(query);
+    }
+  }),
+
+  value: computed({
+    set(key, value) {
+      this.set('query', value);
+
+      return value;
     }
   }),
 
@@ -112,7 +122,6 @@ export default Component.extend(OptionListAriaMixin, {
     },
 
     selectItem(value) {
-      this.set('value', value);
       this.sendAction('on-select', value);
       this.send('close');
     }

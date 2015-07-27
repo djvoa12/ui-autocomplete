@@ -1,18 +1,8 @@
 {{component field-component id=componentId open="open" close="close" placeholder=placeholder
   disabled=disabled value=value class="ff-autocomplete-field"}}
 
-{{#if isOpen}}
-  {{#liquid-tether
-    to=to
-    render-inline=inline
-    target=componentSelector
-    attachment=attachment
-    target-attachment=target-attachment
-    target-modifier=target-modifier
-    offset=offset
-    target-offset=target-offset
-    constraints=constraints
-    optimizations=optimizations}}
+{{#liquid-if isOpen class="ui-autocomplete-inline"}}
+  {{#if inline}}
     {{#if isPromisePending}}
       <div class="ff-autocomplete-loader">
         {{#if loader-component}}
@@ -38,6 +28,43 @@
         {{yield to="inverse"}}
       {{/ui-option-list}}
     {{/if}}
-  {{/liquid-tether}}
-{{/if}}
+  {{else}}
+    {{#liquid-tether
+      to=to
+      render-inline=inline
+      target=componentSelector
+      attachment=attachment
+      target-attachment=target-attachment
+      target-modifier=target-modifier
+      offset=offset
+      target-offset=target-offset
+      constraints=constraints
+      optimizations=optimizations}}
+      {{#if isPromisePending}}
+        <div class="ff-autocomplete-loader">
+          {{#if loader-component}}
+            {{component loader-component}}
+          {{else}}
+            <span>Loading...</span>
+          {{/if}}
+        </div>
+      {{else}}
+        {{#ui-option-list
+          items=proxyContent.content
+          selected-values=selectedValues
+          disabled=disabled
+          on-select="selectItem"
+          close="close"
+          set-aria-owns="setAriaOwns"
+          set-active-descendent="setActiveDescendent"
+          class="ff-autocomplete-menu"
 
+          as |item|}}
+          {{yield item}}
+        {{else}}
+          {{yield to="inverse"}}
+        {{/ui-option-list}}
+      {{/if}}
+    {{/liquid-tether}}
+  {{/if}}
+{{/liquid-if}}
