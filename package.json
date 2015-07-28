@@ -1,6 +1,6 @@
 {
   "name": "ui-autocomplete",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
@@ -42,8 +42,8 @@
   "dependencies": {
     "ember-cli-babel": "^5.0.0",
     "ember-cli-htmlbars": "0.7.9",
-    "liquid-tether": "pzuraq/liquid-tether.git#v0.0.5",
-    "ui-option-list": "firefly-ui/ui-option-list#v0.0.10"
+    "liquid-tether": "pzuraq/liquid-tether",
+    "ui-option-list": "firefly-ui/ui-option-list"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
