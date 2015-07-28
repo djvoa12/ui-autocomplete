@@ -2,7 +2,8 @@ import Ember from 'ember';
 import layout from '../templates/components/ui-autocomplete';
 import OptionListAriaMixin from 'ui-option-list/mixins/option-list-aria';
 
-const { Component, computed, generateGuid, observer } = Ember;
+const { Component, computed, generateGuid, observer, RSVP } = Ember;
+const { Promise } = RSVP;
 
 const ProxyContent = Ember.Object.extend(Ember.PromiseProxyMixin);
 
@@ -39,9 +40,9 @@ export default Component.extend(OptionListAriaMixin, {
   proxyContent: computed('async-items', 'items', function() {
     const asyncItems = this.get('async-items');
 
-    if (isPromise(asyncItems)) {
+    if (isPromiseOrDeferred(asyncItems)) {
       return ProxyContent.create({
-        promise: asyncItems
+        promise: asyncItems.promise || asyncItems
       });
     } else {
       return {
@@ -57,12 +58,12 @@ export default Component.extend(OptionListAriaMixin, {
 
     @return {Boolean} Whether promise is pending or not
   */
-  isPromisePending: computed('proxyContent.isPending', 'value', {
+  isPromisePending: computed('proxyContent.isPending', 'query', {
     get() {
-      const value = this.get('value');
+      const query = this.get('query');
       const isPending = this.get('proxyContent.isPending');
 
-      return isPending && !!value;
+      return isPending && !!query;
     }
   }).readOnly(),
 
@@ -128,6 +129,13 @@ export default Component.extend(OptionListAriaMixin, {
   }
 });
 
-function isPromise(promise) {
-  return promise instanceof Ember.RSVP.Promise;
+/*
+  Checks whether an object is Ember.RSVP.Promise or Ember.RSVP.Defer.
+
+  @params {Promise|Defer}
+  @private
+  return {Boolean}
+*/
+function isPromiseOrDeferred(promise) {
+  return !promise ? false : promise instanceof Promise || promise.promise instanceof Promise;
 }
