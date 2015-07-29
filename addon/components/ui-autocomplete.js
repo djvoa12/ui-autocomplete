@@ -84,7 +84,7 @@ export default Component.extend(OptionListAriaMixin, {
     }
   }),
 
-  valueDidChange: observer('query', function() {
+  valueDidChange: observer('value', function() {
     const value = this.get('value');
     const query = this.get('query');
 
