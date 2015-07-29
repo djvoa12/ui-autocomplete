@@ -84,11 +84,12 @@ export default Component.extend(OptionListAriaMixin, {
     }
   }),
 
-  value: computed({
-    set(key, value) {
-      this.set('query', value);
+  valueDidChange: observer('query', function() {
+    const value = this.get('value');
+    const query = this.get('query');
 
-      return value;
+    if (value !== query) {
+      this.set('query', value);
     }
   }),
 
