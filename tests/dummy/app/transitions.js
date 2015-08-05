@@ -8,7 +8,6 @@ export default function() {
     this.hasClass('ui-autocomplete-inline'),
     this.toValue(true),
     this.use('to-down'),
-    this.reverse('to-up'),
-    this.debug()
+    this.reverse('to-up')
   );
 }

@@ -1,5 +1,22 @@
-{{component field-component id=componentId open="open" close="close" placeholder=placeholder
-  disabled=disabled value=value class="ff-autocomplete-field"}}
+{{component
+  field-component
+  id=elementId
+  open="open"
+  close="close"
+  placeholder=placeholder
+  disabled=disabled
+  value=value
+
+  role=role
+  aria-activedescendant=aria-activedescendant
+  aria-expanded=aria-expanded
+  aria-autocomplete=aria-autocomplete
+  aria-owns=aria-owns
+  aria-haspopup=aria-haspopup
+  aria-disabled=aria-disabled
+  aria-labelledby=aria-labelledby
+
+  class=class}}
 
 {{#liquid-if isOpen class="ui-autocomplete-inline"}}
   {{#if inline}}
@@ -31,14 +48,15 @@
   {{else}}
     {{#liquid-tether
       to=to
-      target=componentSelector
+      target=elementSelector
       attachment=attachment
       target-attachment=target-attachment
       target-modifier=target-modifier
       offset=offset
       target-offset=target-offset
       constraints=constraints
-      optimizations=optimizations}}
+      optimizations=optimizations
+      class=class}}
       {{#if isPromisePending}}
         <div class="ff-autocomplete-loader">
           {{#if loader-component}}

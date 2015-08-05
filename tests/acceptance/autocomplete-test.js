@@ -31,8 +31,8 @@ test('selecting an option', function(assert) {
 
   return visit('/')
     .then(() => {
-      fillIn(`${autocomplete} ${autocompleteField}`, 'T');
-      return keyEvent(`${autocomplete} ${autocompleteField}`, 'keyup');
+      fillIn(`${autocomplete}${autocompleteField}`, 'T');
+      return keyEvent(`${autocomplete}${autocompleteField}`, 'keyup');
     })
     .then(() => {
       assert.equal(find(firstOption).text().trim(), 'Two');
@@ -40,7 +40,7 @@ test('selecting an option', function(assert) {
       return click(lastOption);
     })
     .then(() => {
-      assert.equal(find(`${autocomplete} ${autocompleteField}`).val(), 'Three');
+      assert.equal(find(`${autocomplete}${autocompleteField}`).val(), 'Three');
     });
 });
 
@@ -51,23 +51,23 @@ test('keyboard navigation', function(assert) {
 
   return visit('/')
     .then(() => {
-      fillIn(`${autocomplete} ${autocompleteField}`, 'T');
-      return keyEvent(`${autocomplete} ${autocompleteField}`, 'keyup');
+      fillIn(`${autocomplete}${autocompleteField}`, 'T');
+      return keyEvent(`${autocomplete}${autocompleteField}`, 'keyup');
     })
     .then(() => {
       focussed = find('.focussed');
 
       assert.equal(focussed.text().trim(), 'Two');
 
-      Ember.$(`${autocomplete} ${autocompleteField}`).trigger(Ember.$.Event('keyup', moveDown));
+      Ember.$(`${autocomplete}${autocompleteField}`).trigger(Ember.$.Event('keyup', moveDown));
 
       focussed = find('.focussed');
 
       assert.equal(focussed.text().trim(), 'Three');
 
-      Ember.$(`${autocomplete} ${autocompleteField}`).trigger(Ember.$.Event('keyup', enter));
+      Ember.$(`${autocomplete}${autocompleteField}`).trigger(Ember.$.Event('keyup', enter));
 
-      assert.equal(find(`${autocomplete} ${autocompleteField}`).val(), 'Three');
+      assert.equal(find(`${autocomplete}${autocompleteField}`).val(), 'Three');
     });
 });
 
@@ -78,23 +78,23 @@ test('option group keyboard navigation', function(assert) {
 
   return visit('/')
     .then(() => {
-      fillIn(`${autocompleteWithGroups} ${autocompleteField}`, 'e');
-      return keyEvent(`${autocompleteWithGroups} ${autocompleteField}`, 'keyup');
+      fillIn(`${autocompleteWithGroups}${autocompleteField}`, 'e');
+      return keyEvent(`${autocompleteWithGroups}${autocompleteField}`, 'keyup');
     })
     .then(() => {
       focussed = find('.focussed');
 
       assert.equal(focussed.text().trim(), 'New York');
 
-      Ember.$(`${autocompleteWithGroups} ${autocompleteField}`).trigger(Ember.$.Event('keyup', moveDown));
+      Ember.$(`${autocompleteWithGroups}${autocompleteField}`).trigger(Ember.$.Event('keyup', moveDown));
 
       focussed = find('.focussed');
 
       assert.equal(focussed.text().trim(), 'One');
 
-      Ember.$(`${autocompleteWithGroups} ${autocompleteField}`).trigger(Ember.$.Event('keyup', enter));
+      Ember.$(`${autocompleteWithGroups}${autocompleteField}`).trigger(Ember.$.Event('keyup', enter));
 
-      assert.equal(find(`${autocompleteWithGroups} ${autocompleteField}`).val(), 'One');
+      assert.equal(find(`${autocompleteWithGroups}${autocompleteField}`).val(), 'One');
     });
 });
 
@@ -110,8 +110,8 @@ test('aria compatibility', function(assert) {
       assert.equal(autocompleteElement.attr('aria-autocomplete'), 'list');
       assert.equal(autocompleteElement.attr('aria-haspopup'), 'true');
 
-      fillIn(`${autocompleteWithGroups} ${autocompleteField}`, 'e');
-      return keyEvent(`${autocomplete} ${autocompleteField}`, 'keyup');
+      fillIn(`${autocompleteWithGroups}${autocompleteField}`, 'e');
+      return keyEvent(`${autocomplete}${autocompleteField}`, 'keyup');
     })
     .then(() => {
       assert.equal(autocompleteElement.attr('aria-expanded'), 'true');

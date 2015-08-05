@@ -1,6 +1,19 @@
 import Ember from 'ember';
 
 export default Ember.TextField.extend({
+  classNames: ['ff-autocomplete-field'],
+
+  attributeBindings: [
+    'role',
+    'aria-activedescendant',
+    'aria-expanded',
+    'aria-autocomplete',
+    'aria-owns',
+    'aria-haspopup',
+    'aria-disabled',
+    'aria-labelledby'
+  ],
+
   bubbles: true,
 
   keyUp() {
