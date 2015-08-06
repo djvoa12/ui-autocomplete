@@ -2,16 +2,15 @@ import Ember from 'ember';
 import layout from '../templates/components/ui-autocomplete';
 import OptionListAriaMixin from 'ui-option-list/mixins/option-list-aria';
 
-const { Component, computed, generateGuid, observer, RSVP } = Ember;
+const { Component, computed, observer, RSVP } = Ember;
 const { Promise } = RSVP;
 
 const ProxyContent = Ember.Object.extend(Ember.PromiseProxyMixin);
 
 export default Component.extend(OptionListAriaMixin, {
   layout: layout,
+  tagName: '',
   'field-component': 'ui-autocomplete-field',
-
-  classNames: ['ff-autocomplete'],
 
   to: 'ui-autocomplete',
   attachment: 'top left',
@@ -23,12 +22,8 @@ export default Component.extend(OptionListAriaMixin, {
 
   'show-placeholder-as-option': false,
 
-  componentId: computed(function() {
-    return generateGuid();
-  }),
-
-  componentSelector: computed('componentId', function() {
-    return `#${this.get('componentId')}`;
+  elementSelector: computed(function() {
+    return `#${this.elementId}`;
   }),
 
   /*
