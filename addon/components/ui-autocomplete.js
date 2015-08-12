@@ -15,11 +15,6 @@ export default Component.extend(OptionListAriaMixin, {
   to: 'ui-autocomplete',
   attachment: 'top left',
   'target-attachment': 'bottom left',
-  constraints: [{
-    to: 'window',
-    attachment: 'together'
-  }],
-
   'show-placeholder-as-option': false,
 
   elementSelector: computed(function() {
