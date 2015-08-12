@@ -31,5 +31,6 @@ export default Ember.TextField.extend({
     }
   },
 
-  didLoseKeyResponder(){}
+  becomeKeyResponder: Ember.K,
+  resignKeyResponder: Ember.K
 });
